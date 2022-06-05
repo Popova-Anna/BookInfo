@@ -1,0 +1,23 @@
+﻿@model BookInfo.ViewModels.LoginModel
+
+    <h2 class="LoginH2">Вход на сайт</h2>
+
+    <form asp-action="Login" asp-controller="Account" asp-anti-forgery="true" class="loginform">
+        
+        <div>
+            <div class="validation form-group m-3" asp-validation-summary="ModelOnly"></div>
+            <div class="form-group m-3">
+                <label asp-for="Email" class="form-label"> Введите Email</label>
+                <input type="text" class="form-control" asp-for="Email" />
+                <span asp-validation-for="Email" />
+            </div>
+            <div class="form-group m-3">
+                <label asp-for="Password" class="form-label">Введите пароль</label>
+                <input type="password" class="form-control" asp-for="Password" />
+                <span asp-validation-for="Password" />
+            </div>
+            <div class="form-group loginBtn searchBtn">
+                <input type="submit" value="Войти" class="btn" />
+            </div>
+        </div>
+    </form>

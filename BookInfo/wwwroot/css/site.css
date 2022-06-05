@@ -1,0 +1,100 @@
+:root {
+    --black: #000000;
+    --litegray: #ECECE2;
+    --gray: #D9D9D9;
+    --white: #FFFFFF;
+    --red: #FF0000;
+    --green: #3BAA4D;
+    --brawn: #756C63;
+    --bluegray: #DADEDF;
+}
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+@media (max-width:4600px) and (min-width:758px) {
+    .searchIn {
+        width: 20vw !important;
+    }
+    .LoginH2 {
+        margin-top: 25vh;
+    }
+    .RegisterH2 {
+        margin-top: 15vh;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+.validation{
+    color:var(--red);
+}
+li {
+    list-style-type: none; /* Убираем маркеры */
+}
+body {
+    background-color: var(--gray);
+    font-family: "RobotoRegular";
+    
+}
+
+/*header*/
+.navbar {
+    background-color: var(--brawn) !important;
+}
+
+    .navbar a {
+        color: var(--white) !important;
+    }
+
+    .navbar img {
+        margin-right: 10px;
+    }
+
+.searchBtn {
+    color: var(--black) !important;
+    background-color: var(--litegray) !important;
+    border-radius: 15px !important;
+}
+
+.searchIn {
+    background-color: var(--gray) !important;
+    color: var(--black) !important;
+}
+/*loginForm*/
+.loginform {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.LoginH2, .RegisterH2{
+    text-align:center;
+}
+.loginBtn {
+    text-align: center;
+}
+/*background on book for admin*/
+.bg-block{
+    background-color:var(--litegray);
+    height:79vh;
+    border-radius:20px;
+    padding-left:40px;
+    margin-top:10px;
+    margin-bottom:0px;
+}
+/*Fonts*/
+@font-face {
+    font-family: "RobotoRegular";
+    src: url("../fonts/Roboto-Regular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
