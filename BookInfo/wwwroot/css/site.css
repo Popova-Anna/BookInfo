@@ -56,6 +56,9 @@ body {
 td, th {
     text-align: center;
 }
+.img-detail{
+    height:350px;
+}
 /*header*/
 .navbar {
     background-color: var(--brawn) !important;
@@ -99,6 +102,9 @@ td, th {
     padding-left:40px;
     margin-top:10px;
     margin-bottom:0px;
+}
+.con {
+    padding-top: 50px;
 }
 /*Fonts*/
 @font-face {
