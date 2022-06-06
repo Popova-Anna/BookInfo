@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookInfo.Models;
 using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.Extensions.Hosting.Internal;
 
 namespace BookInfo.Controllers
 {
     public class BooksController : Controller
     {
         private readonly DBContext db;
+        IWebHostEnvironment _appEnvironment;
 
-        public BooksController(DBContext context)
+        public BooksController(DBContext context, IWebHostEnvironment appEnvironment)
         {
             db = context;
+            _appEnvironment = appEnvironment;
         }
 
         // GET: Books
@@ -48,7 +52,7 @@ namespace BookInfo.Controllers
         // GET: Books/Create
         public IActionResult Create()
         {
-            ViewBag.IdAuthor = new SelectList( db.Authors,"ID", "Surname");
+            ViewBag.IdAuthor = new SelectList( db.Authors, "Id", "Surname");
             return View();
         }
 
@@ -57,23 +61,23 @@ namespace BookInfo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,CreatedDate,Pages,Description,IdAuthor")] Book book, IFormFile file)
+        public async Task<IActionResult> Create([Bind("Id,Title,CreatedDate,Cover,Pages,Description,IdAuthor")] Book book, IFormFile file)
         {
             if (ModelState.IsValid)
             {
-                string path = "files/";
-                string fileName = Path.GetFileName(file.FileName);
-                using (FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
+                string path = "/files/"+Path.GetFileName(file.FileName);
+                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                 {
-                    file.CopyTo(stream);
+                    await file.CopyToAsync(fileStream);
                 }
-
-                book.Cover = fileName;
+               
+                book.Cover = path;
                 db.Add(book);
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.IdAuthor = new SelectList(await db.Authors.ToListAsync(), "ID", "Surname");
+           // ViewBag.errors = ModelState.Values.SelectMany(v => v.Errors);
+            ViewBag.IdAuthor = new SelectList(db.Authors, "Id", "Surname");
             return View(book);
         }
 

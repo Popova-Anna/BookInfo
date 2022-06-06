@@ -15,6 +15,7 @@ namespace BookInfo.Models
         /// Дата создания
         /// </summary>
         [Display(Name = "Дата создания")]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime CreatedDate { get; set; }
         /// <summary>
         /// Количество страниц
@@ -30,16 +31,15 @@ namespace BookInfo.Models
         /// Красткое описание
         /// </summary>
         [Display(Name = "Красткое описание")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         /// <summary>
         /// ID Автор
         /// </summary>
-        [Required]
         [Display(Name = "Автор")]
-        public int IdAuthor { get; set; }
+        public int? IdAuthor { get; set; }
         /// <summary>
         /// Автор
         /// </summary>
-        public Author Author { get; set; }  
+        public Author? Author { get; set; }  
     }
 }

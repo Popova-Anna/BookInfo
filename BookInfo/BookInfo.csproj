@@ -8,6 +8,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20220523152927_Roles.cs" />
+    <Compile Remove="Migrations\20220523152927_Roles.Designer.cs" />
+    <Compile Remove="Migrations\20220529085940_create db.cs" />
+    <Compile Remove="Migrations\20220529085940_create db.Designer.cs" />
+    <Compile Remove="Migrations\20220529091747_first.cs" />
+    <Compile Remove="Migrations\20220529091747_first.Designer.cs" />
+    <Compile Remove="Migrations\20220606034003_edit.cs" />
+    <Compile Remove="Migrations\20220606034003_edit.Designer.cs" />
+    <Compile Remove="Migrations\20220606034244_Initial.cs" />
+    <Compile Remove="Migrations\20220606034244_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20220606042131_edit2.cs" />
+    <Compile Remove="Migrations\20220606042131_edit2.Designer.cs" />
+    <Compile Remove="Migrations\DBContextModelSnapshot.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.5">
@@ -23,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\fonts\" />
     <Folder Include="wwwroot\files\" />
   </ItemGroup>
