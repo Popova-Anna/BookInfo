@@ -22,10 +22,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Pages)
-            </th>            
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
+            </th>  
             <th>
                 @Html.DisplayNameFor(model => model.IdAuthor)
             </th>
@@ -36,8 +33,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                <img src="@item.Cover">
-                @Html.DisplayFor(modelItem => item.Cover)
+                <img class=" cover" src="@item.Cover">
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -48,16 +44,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Pages)
             </td>
-            
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(modelItem => item.Author.Surname)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdAuthor)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Посмотреть</a> |
+            <td class="d-grid">
+                <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> 
+                <a asp-action="Details" asp-route-id="@item.Id">Посмотреть</a> 
                 <a asp-action="Delete" asp-route-id="@item.Id" class="text-danger">Удалить</a>
             </td>
         </tr>

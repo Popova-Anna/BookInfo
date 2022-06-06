@@ -90,6 +90,7 @@ namespace BookInfo.Controllers
             }
 
             var book = await db.Books.FindAsync(id);
+            ViewBag.IdAuthor = new SelectList(db.Authors ,"Id", "Surname");
             if (book == null)
             {
                 return NotFound();
@@ -102,7 +103,7 @@ namespace BookInfo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,CreatedDate,Pages,Cover,Description,IdAuthor")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,CreatedDate,Pages,Description,IdAuthor")] Book book, IFormFile? file)
         {
             if (id != book.Id)
             {
@@ -113,6 +114,16 @@ namespace BookInfo.Controllers
             {
                 try
                 {
+                    if (file != null)
+                    {
+                        string path = "/files/" + Path.GetFileName(file.FileName);
+                        using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                        {
+                            await file.CopyToAsync(fileStream);
+                        }
+
+                        book.Cover = path;
+                    }
                     db.Update(book);
                     await db.SaveChangesAsync();
                 }
@@ -129,6 +140,7 @@ namespace BookInfo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.IdAuthor = new SelectList(db.Authors, "Id", "Surname");
             return View(book);
         }
 
@@ -142,6 +154,7 @@ namespace BookInfo.Controllers
 
             var book = await db.Books
                 .FirstOrDefaultAsync(m => m.Id == id);
+            book.Author = db.Authors.Find(book.IdAuthor);
             if (book == null)
             {
                 return NotFound();

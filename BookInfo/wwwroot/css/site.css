@@ -46,6 +46,16 @@ body {
     font-family: "RobotoRegular";
     
 }
+.cover {
+    width: 25%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom: 1px solid #ddd;
+}
+td, th {
+    text-align: center;
+}
 /*header*/
 .navbar {
     background-color: var(--brawn) !important;

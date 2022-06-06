@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -20,17 +20,24 @@
             </div>
             <div class="form-group">
                 <label asp-for="CreatedDate" class="control-label"></label>
-                <input asp-for="CreatedDate" class="form-control" />
+                <input asp-for="CreatedDate" type="date" class="form-control" />
                 <span asp-validation-for="CreatedDate" class="text-danger"></span>
+                <script>
+                    document.getElementById("CreatedDate").value ="@Model.CreatedDate.ToString("yyyy-MM-dd")";
+                </script>
             </div>
             <div class="form-group">
                 <label asp-for="Pages" class="control-label"></label>
                 <input asp-for="Pages" class="form-control" />
                 <span asp-validation-for="Pages" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group d-grid">
+                @if (Model.Cover != null)
+                {
+                     <img src="@Model.Cover" />
+                }
                 <label asp-for="Cover" class="control-label"></label>
-                <input asp-for="Cover" class="form-control" />
+                <input name="file" id="file" class="form-control" type="file" />
                 <span asp-validation-for="Cover" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -40,8 +47,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="IdAuthor" class="control-label"></label>
-                <input asp-for="IdAuthor" class="form-control" />
+                  @Html.DropDownListFor(model => model.IdAuthor, (IEnumerable<SelectListItem>)ViewBag.IdAuthor, @Model.IdAuthor.ToString(), new { htmlAttributes = new { @class = "form-control"} })
                 <span asp-validation-for="IdAuthor" class="text-danger"></span>
+                <script>
+                    document.getElementById("IdAuthor").classList = "form-control";
+                </script>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
