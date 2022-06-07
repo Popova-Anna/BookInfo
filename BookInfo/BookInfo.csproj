@@ -20,6 +20,8 @@
     <Compile Remove="Migrations\20220606034244_Initial.Designer.cs" />
     <Compile Remove="Migrations\20220606042131_edit2.cs" />
     <Compile Remove="Migrations\20220606042131_edit2.Designer.cs" />
+    <Compile Remove="Migrations\20220606054408_cretdbAll.cs" />
+    <Compile Remove="Migrations\20220606054408_cretdbAll.Designer.cs" />
     <Compile Remove="Migrations\DBContextModelSnapshot.cs" />
   </ItemGroup>
 

@@ -4,13 +4,13 @@ namespace BookInfo.Models
 {
     public class Author
     {
-        public int Id { get; set; }        
+        public int Id { get; set; }
         /// <summary>
         /// Фамилия
         /// </summary>
         [Required]
-        [Display(Name ="Фамилия")]
-        public string Surname { get; set; }       
+        [Display(Name = "Фамилия")]
+        public string Surname { get; set; }
         /// <summary>
         /// Имя
         /// </summary>
@@ -26,7 +26,16 @@ namespace BookInfo.Models
         public List<Book> Books { get; set; }
         public Author()
         {
-            Books = new List<Book>();   
+            Books = new List<Book>();
+        }
+        public string FullName
+
+        {
+            get
+            {
+                return Surname + " " + FirstName + " " + MiddleName;
+            }
+
         }
     }
 }

@@ -7,10 +7,10 @@ namespace BookInfo.Models
     {
         [Key]
         [Column(Order = 1)]
-        public int IdBook { get; set; }
+        public int BookId { get; set; }
         [Key]
         [Column(Order = 2)]
-        public int IdUser { get; set; }    
+        public int UserId { get; set; }    
         public List<Book> Books { get; set; }  
         public List<User> Users { get; set; }
         public FavoriteBooks()

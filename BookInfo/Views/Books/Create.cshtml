@@ -38,11 +38,11 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdAuthor" class="control-label"></label>
-                  @Html.DropDownListFor(model => model.IdAuthor, (IEnumerable<SelectListItem>)ViewBag.IdAuthor, String.Empty, new { htmlAttributes = new { @class = "form-control"} })
-                <span asp-validation-for="IdAuthor" class="text-danger"></span>
+                <label asp-for="AuthorId" class="control-label"></label>
+                  @Html.DropDownListFor(model => model.AuthorId, (IEnumerable<SelectListItem>)ViewBag.AuthorId, String.Empty, new { htmlAttributes = new { @class = "form-control"} })
+                <span asp-validation-for="AuthorId" class="text-danger"></span>
                 <script>
-                    document.getElementById("IdAuthor").classList = "form-control";
+                    document.getElementById("AuthorId").classList = "form-control";
                 </script>
             </div>
             <div class="form-group">

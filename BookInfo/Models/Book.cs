@@ -36,10 +36,15 @@ namespace BookInfo.Models
         /// ID Автор
         /// </summary>
         [Display(Name = "Автор")]
-        public int? IdAuthor { get; set; }
+        public int? AuthorId { get; set; }
         /// <summary>
         /// Автор
         /// </summary>
         public Author? Author { get; set; }  
+        public Book()
+        {
+            //Author = new Author();
+            Title = " ";
+        }
     }
 }

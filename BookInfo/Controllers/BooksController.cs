@@ -26,9 +26,11 @@ namespace BookInfo.Controllers
         // GET: Books
         public async Task<IActionResult> Index()
         {
-              return db.Books != null ? 
-                          View(await db.Books.ToListAsync()) :
-                          Problem("Набор сущностей 'DBContext.Books' имеет значение null.");
+            var books = await db.Books.ToListAsync();
+            return View(books);
+              //return db.Books != null ? 
+              //            View(await db.Books.ToListAsync()) :
+              //            Problem("Набор сущностей 'DBContext.Books' имеет значение null.");
         }
 
         // GET: Books/Details/5
@@ -52,7 +54,7 @@ namespace BookInfo.Controllers
         // GET: Books/Create
         public IActionResult Create()
         {
-            ViewBag.IdAuthor = new SelectList( db.Authors, "Id", "Surname");
+            ViewBag.AuthorId = new SelectList( db.Authors, "Id", "FullName");
             return View();
         }
 
@@ -61,7 +63,7 @@ namespace BookInfo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,CreatedDate,Cover,Pages,Description,IdAuthor")] Book book, IFormFile file)
+        public async Task<IActionResult> Create([Bind("Id,Title,CreatedDate,Cover,Pages,Description,AuthorId")] Book book, IFormFile file)
         {
             if (ModelState.IsValid)
             {
@@ -72,12 +74,13 @@ namespace BookInfo.Controllers
                 }
                
                 book.Cover = path;
+                //book.Author = db.Authors.Find(book.AuthorId);
                 db.Add(book);
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
            // ViewBag.errors = ModelState.Values.SelectMany(v => v.Errors);
-            ViewBag.IdAuthor = new SelectList(db.Authors, "Id", "Surname");
+            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "FullName");
             return View(book);
         }
 
@@ -90,7 +93,8 @@ namespace BookInfo.Controllers
             }
 
             var book = await db.Books.FindAsync(id);
-            ViewBag.IdAuthor = new SelectList(db.Authors ,"Id", "Surname");
+            book.Author = db.Authors.Find(book.AuthorId);
+            ViewBag.AuthorId = new SelectList(db.Authors ,"Id", "Surname");
             if (book == null)
             {
                 return NotFound();
@@ -103,7 +107,7 @@ namespace BookInfo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,CreatedDate,Pages,Description,IdAuthor")] Book book, IFormFile? file)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,CreatedDate,Pages,Description,AuthorId")] Book book, IFormFile? file)
         {
             if (id != book.Id)
             {
@@ -140,7 +144,7 @@ namespace BookInfo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.IdAuthor = new SelectList(db.Authors, "Id", "Surname");
+            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "FullName");
             return View(book);
         }
 
@@ -154,7 +158,7 @@ namespace BookInfo.Controllers
 
             var book = await db.Books
                 .FirstOrDefaultAsync(m => m.Id == id);
-            book.Author = db.Authors.Find(book.IdAuthor);
+            book.Author = db.Authors.Find(book.AuthorId);
             if (book == null)
             {
                 return NotFound();

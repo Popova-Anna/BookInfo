@@ -21,12 +21,12 @@ namespace BookInfo.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BooksGenre>().HasKey(table => new {
-                table.IdGenre,
-                table.IdBook
+                table.GenreId,
+                table.BookId
             });
             modelBuilder.Entity<FavoriteBooks>().HasKey(table => new {
-                table.IdUser,
-                table.IdBook
+                table.UserId,
+                table.BookId
             });
             string adminRoleName = "admin";
             string userRoleName = "user";
