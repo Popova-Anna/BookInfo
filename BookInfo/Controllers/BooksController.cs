@@ -26,11 +26,8 @@ namespace BookInfo.Controllers
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            var books = await db.Books.ToListAsync();
+            var books = await db.Books.Include(c => c.Author).ToListAsync();
             return View(books);
-              //return db.Books != null ? 
-              //            View(await db.Books.ToListAsync()) :
-              //            Problem("Набор сущностей 'DBContext.Books' имеет значение null.");
         }
 
         // GET: Books/Details/5
@@ -41,8 +38,13 @@ namespace BookInfo.Controllers
                 return NotFound();
             }
 
-            var book = await db.Books
+            var book = await db.Books.Include(c => c.Author)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            List<Genre> list = new();
+            foreach(var item in db.BooksGenres.Where(c => c.BookId == id).Include(c => c.Genres).ToList())
+                list.Add(db.Genres.Find(item.GenreId));
+            //ViewBag.Genres = db.BooksGenres.Where(c => c.BookId == id).Include(c => c.Genres).ToList();
+            ViewBag.Genres = list;
             if (book == null)
             {
                 return NotFound();
@@ -54,7 +56,8 @@ namespace BookInfo.Controllers
         // GET: Books/Create
         public IActionResult Create()
         {
-            ViewBag.AuthorId = new SelectList( db.Authors, "Id", "FullName");
+            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "FullName");
+            ViewBag.Genres = new SelectList(db.Genres, "Id", "Name");
             return View();
         }
 
@@ -63,24 +66,30 @@ namespace BookInfo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,CreatedDate,Cover,Pages,Description,AuthorId")] Book book, IFormFile file)
+        public async Task<IActionResult> Create([Bind("Id,Title,CreatedDate,Cover,Pages,Description,AuthorId")] Book book, IFormFile file, List<int> Genres)
         {
             if (ModelState.IsValid)
             {
-                string path = "/files/"+Path.GetFileName(file.FileName);
+                string path = "/files/" + Path.GetFileName(file.FileName);
                 using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                 {
                     await file.CopyToAsync(fileStream);
                 }
-               
+
                 book.Cover = path;
                 //book.Author = db.Authors.Find(book.AuthorId);
                 db.Add(book);
+                foreach (var item in Genres)
+                {
+
+                    db.BooksGenres.Add(new BooksGenre() { BookId = book.Id, GenreId = item });
+                }
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-           // ViewBag.errors = ModelState.Values.SelectMany(v => v.Errors);
+            // ViewBag.errors = ModelState.Values.SelectMany(v => v.Errors);
             ViewBag.AuthorId = new SelectList(db.Authors, "Id", "FullName");
+            ViewBag.Genres = new SelectList(db.Genres, "Id", "Name");
             return View(book);
         }
 
@@ -93,8 +102,8 @@ namespace BookInfo.Controllers
             }
 
             var book = await db.Books.FindAsync(id);
-            book.Author = db.Authors.Find(book.AuthorId);
-            ViewBag.AuthorId = new SelectList(db.Authors ,"Id", "Surname");
+            ViewBag.Genres = new MultiSelectList(db.Genres, "Id", "Name", db.BooksGenres.Where(c => c.BookId == id).Select(c => c.GenreId));
+            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "FullName", db.Authors.Find(book.AuthorId));
             if (book == null)
             {
                 return NotFound();
@@ -107,7 +116,7 @@ namespace BookInfo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,CreatedDate,Pages,Description,AuthorId")] Book book, IFormFile? file)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,CreatedDate,Pages,Cover,Description,AuthorId")] Book book, IFormFile? file, List<int>? Genres)
         {
             if (id != book.Id)
             {
@@ -128,6 +137,14 @@ namespace BookInfo.Controllers
 
                         book.Cover = path;
                     }
+                    if (Genres != null)
+                    {
+                        db.BooksGenres.RemoveRange(db.BooksGenres.Where(c => c.BookId == id).ToList());
+                        foreach (var item in Genres)
+                        {
+                            db.BooksGenres.Add(new BooksGenre() { BookId = book.Id, GenreId = item });
+                        }
+                    }
                     db.Update(book);
                     await db.SaveChangesAsync();
                 }
@@ -144,6 +161,7 @@ namespace BookInfo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Genres = new MultiSelectList(db.Genres, "Id", "Name", db.BooksGenres.Where(c => c.BookId == id).Select(c => c.GenreId));
             ViewBag.AuthorId = new SelectList(db.Authors, "Id", "FullName");
             return View(book);
         }
@@ -156,9 +174,8 @@ namespace BookInfo.Controllers
                 return NotFound();
             }
 
-            var book = await db.Books
+            var book = await db.Books.Include(c => c.Author)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            book.Author = db.Authors.Find(book.AuthorId);
             if (book == null)
             {
                 return NotFound();
@@ -181,14 +198,14 @@ namespace BookInfo.Controllers
             {
                 db.Books.Remove(book);
             }
-            
+
             await db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool BookExists(int id)
         {
-          return (db.Books?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (db.Books?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

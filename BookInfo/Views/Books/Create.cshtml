@@ -28,6 +28,14 @@
                 <span asp-validation-for="Pages" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label for="Genres" class="control-label"></label>
+               @Html.ListBox("Genres", (IEnumerable<SelectListItem>)ViewBag.Genres, new { htmlAttributes = new { @class = "form-control"} })
+                  
+                <script>
+                    document.getElementById("Genres").classList = "form-control";
+                </script>
+            </div>
+            <div class="form-group">
                 <label asp-for="Cover" class="control-label"></label>
                 <input name="file" id="file" class="form-control" type="file" />
                 <span asp-validation-for="Cover" class="text-danger"></span>

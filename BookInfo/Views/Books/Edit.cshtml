@@ -31,10 +31,19 @@
                 <input asp-for="Pages" class="form-control" />
                 <span asp-validation-for="Pages" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label for="Genres" class="control-label"></label>
+                  @Html.ListBox("Genres", (IEnumerable<SelectListItem>)@ViewBag.genres, new { htmlAttributes = new { @class = "form-control"} })
+                <script>
+                    document.getElementById("Genres").classList = "form-control";
+                    document.getElementById("Genres").selected = @ViewBag.genres;
+                </script>
+            </div>
             <div class="form-group d-grid">
                 @if (Model.Cover != null)
                 {
                      <img src="@Model.Cover" />
+                     @Html.HiddenFor(model=>model.Cover)
                 }
                 <label asp-for="Cover" class="control-label"></label>
                 <input name="file" id="file" class="form-control" type="file" />
@@ -46,8 +55,9 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AuthorId" class="control-label"></label>
-                  @Html.DropDownListFor(model => model.AuthorId, (IEnumerable<SelectListItem>)ViewBag.AuthorId, @Model.AuthorId.ToString(), new { htmlAttributes = new { @class = "form-control"} })
+                <label asp-for="AuthorId" class="control-label"></label>                
+                  @Html.DropDownListFor(model => model.AuthorId, (IEnumerable<SelectListItem>)ViewBag.AuthorId, String.Empty, new { htmlAttributes = new { @class = "form-control"} })
+                @Html.HiddenFor(model=>model.AuthorId)
                 <span asp-validation-for="AuthorId" class="text-danger"></span>
                 <script>
                     document.getElementById("AuthorId").classList = "form-control";

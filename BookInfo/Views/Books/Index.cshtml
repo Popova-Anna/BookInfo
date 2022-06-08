@@ -7,8 +7,9 @@
 <div class="d-flex flex-row justify-content-between">
     <h3>Панель администратора</h3>
     <div>
-        <a asp-action="Create" class="btn btn-success">Добавить новую книгу</a>
-        <a asp-action="Create" asp-controller="Author" class="btn btn-success">Добавить автора</a>
+        <a asp-action="Create" class="btn btn-add">Добавить книгу</a>
+        <a asp-action="Create" asp-controller="Authors" class="btn btn-add">Добавить автора</a>
+        <a asp-action="Create" asp-controller="Genres" class="btn btn-add">Добавить жанры</a>
     </div>
 </div>
 <div class=" bg-block">
@@ -52,10 +53,13 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Author.FullName)
                     </td>
-                    <td class="d-grid">
-                        <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a>
-                        <a asp-action="Details" asp-route-id="@item.Id">Посмотреть</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="text-danger">Удалить</a>
+                    <td>
+                        <div class="d-grid">
+                            <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a>
+                            <a asp-action="Details" asp-route-id="@item.Id">Посмотреть</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="text-danger">Удалить</a>
+                        </div>
+
                     </td>
                 </tr>
             }

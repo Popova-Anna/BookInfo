@@ -58,11 +58,20 @@ td, th {
     text-align: center;
    
 }
-td{
+tr{
     border-color:var(--black);
 }
 .img-detail{
     height:350px;
+}
+table a{
+    text-decoration:none;
+    color:var(--black);
+}
+.btn-add{
+    background:var(--litegray);
+    color:var(--green);
+    border-radius:20px;
 }
 /*header*/
 .navbar {
@@ -99,6 +108,7 @@ td{
 .loginBtn {
     text-align: center;
 }
+
 /*background on book for admin*/
 .bg-block{
     background-color:var(--litegray);
