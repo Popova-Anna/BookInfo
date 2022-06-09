@@ -1,8 +1,34 @@
-﻿@{
+﻿@model IEnumerable<BookInfo.ViewModels.BookView>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="all-block row">
+    @foreach (var item in Model)
+    {
+        <img src="@item.Cover" class="card-img img-head">
+
+    }
+</div>
+<div class="container">
+    <div class="card-group">
+        @foreach (var item in Model)
+        {
+            <div class=" card mb-3 cardView" @*style="background-image:url('@item.Cover');"*@>
+                <img class="card-img cardView" src="@item.Cover">
+                <div class="position-absolute bottom-0">
+                    <div class="card-title-over card-header ">
+                        <a asp-action="Details" asp-controller="Books" asp-route-id="@item.Id"><h5 class="card-title">@item.Title</h5></a>
+                        <strong>Автор:</strong>@item.Author<br>
+                         <strong>Жанры:</strong>
+                         @foreach (var itemG in item.Genres)
+                         {
+                             <label>@itemG.Name &nbsp</label>
+                         }
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
 </div>

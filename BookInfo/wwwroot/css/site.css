@@ -121,6 +121,42 @@ table a{
 .con {
     padding-top: 50px;
 }
+/*All*/
+.all-block {
+    background-color: var(--litegray);
+    border-radius: 20px;
+    padding-left: 40px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+.img-head{
+    margin:15px;
+    height:250px;
+    width:180px;
+}
+/*card*/
+.card{
+    box-shadow:var(--gray) 10px;
+}
+.card a{
+    text-decoration:none;
+    color:var(--black);
+}
+.cardView {
+    height: 300px;
+    width: 14rem;
+}
+.card-footer{
+    align-content:end;
+}
+.card-title-over{
+    display:inline-block;
+    background-color:var(--gray);
+    opacity:0.9;
+}
+.card-header{
+    width:14rem;
+}
 /*Fonts*/
 @font-face {
     font-family: "RobotoRegular";

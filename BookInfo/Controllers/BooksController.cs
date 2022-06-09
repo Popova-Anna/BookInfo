@@ -43,7 +43,6 @@ namespace BookInfo.Controllers
             List<Genre> list = new();
             foreach(var item in db.BooksGenres.Where(c => c.BookId == id).Include(c => c.Genres).ToList())
                 list.Add(db.Genres.Find(item.GenreId));
-            //ViewBag.Genres = db.BooksGenres.Where(c => c.BookId == id).Include(c => c.Genres).ToList();
             ViewBag.Genres = list;
             if (book == null)
             {
