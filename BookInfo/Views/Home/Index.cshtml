@@ -11,15 +11,17 @@
     }
 </div>
 <div class="container">
-    <div class="card-group">
+    <div class="row row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4">
         @foreach (var item in Model)
         {
-            <div class=" card mb-3 cardView" @*style="background-image:url('@item.Cover');"*@>
-                <img class="card-img cardView" src="@item.Cover">
-                <div class="position-absolute bottom-0">
-                    <div class="card-title-over card-header ">
-                        <a asp-action="Details" asp-controller="Books" asp-route-id="@item.Id"><h5 class="card-title">@item.Title</h5></a>
-                        <strong>Автор:</strong>@item.Author<br>
+            <div class="col mb-4">
+                <div class="card" style="width:18rem;height:25rem;">
+                    <img src="@item.Cover" class="card-img-top" alt="img">
+                    <div class="card-title-over position-absolute bottom-0 card-body">
+                         <a asp-action="Details" asp-controller="Books" asp-route-id="@item.Id">
+                             <h5 class="card-title">@item.Title</h5>
+                         </a>
+                         <strong>Автор:</strong>@item.Author<br>
                          <strong>Жанры:</strong>
                          @foreach (var itemG in item.Genres)
                          {
@@ -28,7 +30,6 @@
                     </div>
                 </div>
             </div>
-
         }
     </div>
 </div>

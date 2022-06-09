@@ -39,10 +39,23 @@ namespace BookInfo.Controllers
             return View(BookViews);
         }
         [HttpPost]
-        public IActionResult Searsh(string searsh)
+        public IActionResult Searsh(string search)
         {
-            //var rezult = db.Books.Contains(searsh).ToList();
-            return View();
+            var rezult = new List<BookView>();
+            foreach (var item in db.Books.Include(c => c.Author).Where(c => c.Title.Contains(search)).ToList())
+            {
+                var bookView = new BookView();
+                bookView.Title = item.Title;
+                bookView.Author = item.Author.FullName;
+                bookView.Id = item.Id;
+                bookView.Cover = item.Cover;
+                List<Genre> list = new();
+                foreach (var itemG in db.BooksGenres.Where(c => c.BookId == item.Id).Include(c => c.Genres).ToList())
+                    list.Add(db.Genres.Find(itemG.GenreId));
+                bookView.Genres = list;
+                rezult.Add(bookView);
+            }
+            return View(rezult);
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

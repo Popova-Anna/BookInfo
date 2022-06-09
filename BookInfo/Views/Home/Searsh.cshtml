@@ -1,56 +1,50 @@
 ﻿@model IEnumerable<BookInfo.ViewModels.BookView>
 
 @{
-    ViewData["Title"] = "Searsh";
+    ViewData["Title"] = "Результаты поиска";
 }
 
-<h1>Searsh</h1>
+<h1>Результаты поиска</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cover)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Author)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cover)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author)
-            </td>
-             @if (User.IsInRole("admin"))
-        {
-            <div>
-                <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
-                <a asp-action="Index">Вернуться к спику книг</a> 
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+<div class="row row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4">
+    @foreach (var item in Model)
+    {
+        <div class="col mb-4">
+            <div class="card" style="width:18rem;height:25rem;">
+                <img src="@item.Cover" class="card-img-top" alt="img">
+                <div class="card-title-over position-absolute bottom-0 card-body">
+                    <a asp-action="Details" asp-controller="Books" asp-route-id="@item.Id">
+                        <h5 class="card-title">@item.Title</h5>
+                    </a>
+                    <strong>Автор: </strong>@item.Author<br>
+                    <strong>Жанры: </strong>
+                    @foreach (var itemG in item.Genres)
+                    {
+                        <label>@itemG.Name &nbsp</label>
+                    }
+                </div>
+                @if (User.IsInRole("admin"))
+                {
+                    <div class="card-footer">
+                        <a class="text-success" asp-action="Index">Вернуться к спику книг</a><br>
+                        <a class="text-success" asp-action="Edit" asp-route-id="@item.Id">Изменить</a> <br>
+                        <a asp-action="Delete" class="text-danger" asp-route-id="@item.Id">Удалить</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="card-footer">
+                        <a class="text-success" asp-action="Details" asp-route-id="@item.Id">
+                            <span> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z" />
+                                    <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z" />
+                                </svg></span>
+                            Добавить в избранное
+                        </a>
+                    </div>
+                }
             </div>
-        }
-        else
-        {
-            <div>
-                <a asp-action="Details" asp-route-id="@item.Id">Добавить в избранное</a>
-            </div>
-        }
-        </tr>
-}
-    </tbody>
-</table>
+        </div>
+
+    }
+</div>           

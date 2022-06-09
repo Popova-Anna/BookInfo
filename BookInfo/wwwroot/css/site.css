@@ -131,32 +131,31 @@ table a{
 }
 .img-head{
     margin:15px;
-    height:250px;
-    width:180px;
+    height:200px;
+    width:150px;
 }
 /*card*/
 .card{
-    box-shadow:var(--gray) 10px;
+    box-shadow:var(--gray);
+    border-radius:20px;
+
 }
+
 .card a{
     text-decoration:none;
     color:var(--black);
 }
-.cardView {
-    height: 300px;
-    width: 14rem;
+.card-img-top{
+    height:25rem;
 }
-.card-footer{
-    align-content:end;
+.card-title-over {
+    display: inline-block;
+    background-color: var(--gray);
+    opacity: 0.9;
 }
-.card-title-over{
-    display:inline-block;
-    background-color:var(--gray);
-    opacity:0.9;
-}
-.card-header{
+/*.card-header{
     width:14rem;
-}
+}*/
 /*Fonts*/
 @font-face {
     font-family: "RobotoRegular";
