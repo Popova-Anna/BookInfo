@@ -38,12 +38,6 @@ namespace BookInfo.Controllers
             }
             return View(BookViews);
         }
-        [HttpPost]
-        public IActionResult Searsh(string searsh)
-        {
-            //var rezult = db.Books.Contains(searsh).ToList();
-            return View();
-        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using BookInfo.ViewModels;
 
 namespace BookInfo.Models
 
@@ -44,6 +43,5 @@ namespace BookInfo.Models
             modelBuilder.Entity<User>().HasData(new User[] { adminUser });
             base.OnModelCreating(modelBuilder);
         }
-        public DbSet<BookInfo.ViewModels.BookView>? BookView { get; set; }
     }
 }
