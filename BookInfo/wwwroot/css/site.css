@@ -23,9 +23,11 @@ html {
     .searchIn {
         width: 20vw !important;
     }
+
     .LoginH2 {
         margin-top: 25vh;
     }
+
     .RegisterH2 {
         margin-top: 15vh;
     }
@@ -35,17 +37,20 @@ html {
     position: relative;
     min-height: 100%;
 }
-.validation{
-    color:var(--red);
+
+.validation {
+    color: var(--red);
 }
+
 li {
     list-style-type: none; /* Убираем маркеры */
 }
+
 body {
     background-color: var(--gray);
     font-family: "RobotoRegular";
-    
 }
+
 .cover {
     height: 103px;
     width: 70px;
@@ -54,24 +59,28 @@ body {
     margin-right: auto;
     border-bottom: 1px solid #ddd;
 }
+
 td, th {
     text-align: center;
-   
 }
-tr{
-    border-color:var(--black);
+
+tr {
+    border-color: var(--black);
 }
-.img-detail{
-    height:350px;
+
+.img-detail {
+    height: 350px;
 }
-table a{
-    text-decoration:none;
-    color:var(--black);
+
+table a {
+    text-decoration: none;
+    color: var(--black);
 }
-.btn-add{
-    background:var(--litegray);
-    color:var(--green);
-    border-radius:20px;
+
+.btn-add {
+    background: var(--litegray);
+    color: var(--green);
+    border-radius: 20px;
 }
 /*header*/
 .navbar {
@@ -102,22 +111,25 @@ table a{
     justify-content: center;
     align-content: center;
 }
-.LoginH2, .RegisterH2{
-    text-align:center;
+
+.LoginH2, .RegisterH2 {
+    text-align: center;
 }
+
 .loginBtn {
     text-align: center;
 }
 
 /*background on book for admin*/
-.bg-block{
-    background-color:var(--litegray);
-    height:79vh;
-    border-radius:20px;
-    padding-left:40px;
-    margin-top:10px;
-    margin-bottom:0px;
+.bg-block {
+    background-color: var(--litegray);
+    height: 79vh;
+    border-radius: 20px;
+    padding-left: 40px;
+    margin-top: 10px;
+    margin-bottom: 0px;
 }
+
 .con {
     padding-top: 50px;
 }
@@ -129,29 +141,38 @@ table a{
     margin-top: 10px;
     margin-bottom: 0px;
 }
-.img-head{
-    margin:15px;
-    height:200px;
-    width:150px;
+
+.a-img {
+    margin: 15px;
+    width: 150px;
+}
+
+.img-head {
+    height: 200px;
+    width: 150px;
 }
 /*card*/
-.card{
-    box-shadow:var(--gray);
-    border-radius:20px;
-
+.card {
+    box-shadow: var(--gray);
+    border-radius: 20px;
 }
 
-.card a{
-    text-decoration:none;
-    color:var(--black);
+    .card a {
+        text-decoration: none;
+        color: var(--black);
+    }
+
+.card-img-top {
+    height: 25rem;
 }
-.card-img-top{
-    height:25rem;
-}
+
 .card-title-over {
     display: inline-block;
     background-color: var(--gray);
     opacity: 0.9;
+}
+.card-title{
+    color:var(--black)
 }
 /*.card-header{
     width:14rem;

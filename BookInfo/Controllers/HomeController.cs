@@ -18,12 +18,11 @@ namespace BookInfo.Controllers
             db = context;
         }
         [Authorize(Roles = "admin, user")]
-        public IActionResult Index(int? id)
+        public IActionResult Index()
         {
             var BookViews = new List<BookView>();
-            if (id == null)
-                id = 0;
-            foreach (var item in db.Books.Include(c => c.Author).Where(c => c.Id > id).Take(8).ToList())
+            
+            foreach (var item in db.Books.Include(c => c.Author).ToList())
             {
                 var bookView = new BookView();
                 bookView.Title = item.Title;
@@ -36,6 +35,7 @@ namespace BookInfo.Controllers
                 bookView.Genres = list;
                 BookViews.Add(bookView);
             }
+            ViewBag.BookViewsLast = BookViews.TakeLast(7); 
             return View(BookViews);
         }
         [HttpPost]
