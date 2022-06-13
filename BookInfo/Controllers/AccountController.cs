@@ -100,7 +100,41 @@ namespace BookInfo.Controllers
         //Представление личного кабинета
         public IActionResult Account()
         {
-            return View(db.Users.FirstOrDefault(u => u.Email == User.Identity.Name));
+            //Ищем текущего пользователя в базе
+            var user = db.Users.FirstOrDefault(u => u.Email == User.Identity.Name);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            //Выбираем его избранные книги
+            var favorite = db.FavoriteBooks.Where(m => m.UserId == user.Id).ToList();
+            var BookViews = new List<BookView>();
+            if (favorite != null)
+            {                
+                foreach (var book in favorite)
+                {
+                    //Выбибраем информацию о необходимой книге
+                    var item = db.Books.Include(c => c.Author).Where(c => c.Id == book.BookId).FirstOrDefault();
+                    if (item == null)
+                    {
+                        return NotFound();
+                    }
+
+                    var bookView = new BookView();
+                    bookView.Title = item.Title;
+                    bookView.Author = item.Author.FullName;
+                    bookView.Id = item.Id;
+                    bookView.Cover = item.Cover;
+                    List<Genre> list = new();
+                    //Загружаем данные жанров для текущей книги
+                    foreach (var itemG in db.BooksGenres.Where(c => c.BookId == item.Id).Include(c => c.Genres).ToList())
+                        list.Add(db.Genres.Find(itemG.GenreId));
+                    bookView.Genres = list;
+                    BookViews.Add(bookView);
+                }
+            }
+            ViewBag.FB = BookViews;
+            return View(user);
         }
 
     }

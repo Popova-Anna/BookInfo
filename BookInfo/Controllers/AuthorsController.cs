@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookInfo.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookInfo.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class AuthorsController : Controller
     {
         private readonly DBContext _context;

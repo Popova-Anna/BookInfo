@@ -20,7 +20,7 @@ namespace BookInfo.Models
         /// <summary>
         /// Отчество
         /// </summary>
-        [Required]
+        
         [Display(Name = "Отчество")]
         public string MiddleName { get; set; }
         public List<Book> Books { get; set; }

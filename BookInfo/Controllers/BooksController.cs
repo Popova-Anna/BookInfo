@@ -9,9 +9,11 @@ using BookInfo.Models;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.Extensions.Hosting.Internal;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookInfo.Controllers
 {
+    [Authorize]
     public class BooksController : Controller
     {
         private readonly DBContext db;
@@ -23,7 +25,9 @@ namespace BookInfo.Controllers
             _appEnvironment = appEnvironment;
         }
 
+
         // GET: Books
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Index()
         {
             var books = await db.Books.Include(c => c.Author).ToListAsync();
@@ -48,11 +52,58 @@ namespace BookInfo.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.IsFavorit = false;
+            var user = await db.Users.FirstOrDefaultAsync(u => u.Email == User.Identity.Name);
+            var favorit = db.FavoriteBooks.Where(m => m.UserId == user.Id).Where(m => m.BookId == id).FirstOrDefault();
+            if (favorit != null)
+            {
+                ViewBag.IsFavorit = true;
+            }
+            
             return View(book);
         }
 
+        public async Task<IActionResult> AddFavoritBook(int id, string login)
+        {
+            var book = await db.Books.FirstOrDefaultAsync(m => m.Id == id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            var user = await db.Users.FirstOrDefaultAsync(u => u.Email == login);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var favorit = new FavoriteBooks
+            {
+                BookId = book.Id,
+                UserId = user.Id
+            };
+            db.FavoriteBooks.Add(favorit);
+            db.SaveChanges();
+            return RedirectToAction("Details", "Books",new { id });
+        }
+
+        public async Task<IActionResult> DeleteFavoritBook(int id, string login)
+        {
+            var user = await db.Users.FirstOrDefaultAsync(u => u.Email == login);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var favorit = db.FavoriteBooks.Where(m => m.UserId == user.Id).Where(m => m.BookId == id).FirstOrDefault();
+            if (favorit == null)
+            {
+                return NotFound();
+            }
+            db.FavoriteBooks.Remove(favorit);
+            db.SaveChanges();
+            return RedirectToAction("Details", "Books", new { id });
+        }
+
         // GET: Books/Create
+        [Authorize(Roles = "admin")]
         public IActionResult Create()
         {
             ViewBag.AuthorId = new SelectList(db.Authors, "Id", "FullName");
@@ -65,6 +116,7 @@ namespace BookInfo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create([Bind("Id,Title,CreatedDate,Cover,Pages,Description,AuthorId")] Book book, IFormFile file, List<int> Genres)
         {
             if (ModelState.IsValid)
@@ -93,6 +145,7 @@ namespace BookInfo.Controllers
         }
 
         // GET: Books/Edit/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || db.Books == null)
@@ -115,6 +168,7 @@ namespace BookInfo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,CreatedDate,Pages,Cover,Description,AuthorId")] Book book, IFormFile? file, List<int>? Genres)
         {
             if (id != book.Id)
@@ -166,6 +220,7 @@ namespace BookInfo.Controllers
         }
 
         // GET: Books/Delete/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || db.Books == null)

@@ -27,12 +27,45 @@
 @if (User.IsInRole("admin"))
 {
     <div>
-        <a asp-action="Index" asp-controller="Home">Вернуться к спику книг</a>
+        <a class="btn btn-add" asp-action="Index" asp-controller="Home">Список книг(то как видитит пользователь)</a>
+        <a class="btn btn-add" asp-action="Index" asp-controller="Authors">Список авторов</a>
+        <a class="btn btn-add" asp-action="Index" asp-controller="Genres">Список жанров</a>
     </div>
 }
 else
 {
-    <div>
-        <a asp-action="Details" asp-route-id="@Model.Id">Добавить в избранное</a>
+    <div class="container">
+        <div class="row row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4">
+            @foreach (var item in ViewBag.FB)
+            {
+            <div class="col mb-4">
+                <div class="card" style="width:18rem;height:25rem;margin:15px; ">
+                    <img src="@item.Cover" class="card-img-top" alt="img">
+                    <div class="card-title-over position-absolute bottom-0 card-body">
+                        <hr>
+                        <a asp-action="Details" asp-controller="Books" asp-route-id="@item.Id">
+                            <h5 class="card-title">@item.Title</h5>
+                        </a>
+                        <hr>
+                        <strong>Автор: </strong>@item.Author<br>
+                        <strong>Жанры: </strong>
+                        @foreach (var itemG in item.Genres)
+                        {
+                            <label>@itemG.Name &nbsp</label>
+                        }
+                        <div>
+                            <a class="text-danger" asp-action="DeleteFavoritBook" asp-controller="Books" asp-route-id="@item?.Id" asp-route-login="@User.Identity.Name">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                                Удалить из избранного
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
     </div>
+
 }

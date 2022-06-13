@@ -23,7 +23,7 @@ namespace BookInfo.Controllers
             var BookViews = new List<BookView>();
             if (id == null)
                 id = 0;
-            foreach (var item in db.Books.Include(c => c.Author).Where(c => c.Id > id).Take(20).ToList())
+            foreach (var item in db.Books.Include(c => c.Author).Where(c => c.Id > id).Take(8).ToList())
             {
                 var bookView = new BookView();
                 bookView.Title = item.Title;
