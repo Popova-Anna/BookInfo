@@ -38,18 +38,26 @@ namespace BookInfo.Controllers
             ViewBag.BookViewsLast = BookViews.TakeLast(7); 
             return View(BookViews);
         }
+        /// <summary>
+        /// Метод поиска книг
+        /// </summary>
+        /// <param name="search">строка запроса</param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Searsh(string search)
         {
             var rezult = new List<BookView>();
+            //ищем в базе название книги, которое похоже на то, что написал пользователь
             foreach (var item in db.Books.Include(c => c.Author).Where(c => c.Title.Contains(search)).ToList())
             {
+                //используем модель для вывода данных
                 var bookView = new BookView();
                 bookView.Title = item.Title;
                 bookView.Author = item.Author.FullName;
                 bookView.Id = item.Id;
                 bookView.Cover = item.Cover;
                 List<Genre> list = new();
+                //заполняем жанры найденной книги
                 foreach (var itemG in db.BooksGenres.Where(c => c.BookId == item.Id).Include(c => c.Genres).ToList())
                     list.Add(db.Genres.Find(itemG.GenreId));
                 bookView.Genres = list;
