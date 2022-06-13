@@ -28,7 +28,8 @@
                 <span asp-validation-for="Pages" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label for="Genres" class="control-label"></label>
+                <label for="Genres" class="control-label">Жанры</label>
+                <label for="Genres" class="control-label">(множественный выбор через Ctrl)</label>
                @Html.ListBox("Genres", (IEnumerable<SelectListItem>)ViewBag.Genres, new { htmlAttributes = new { @class = "form-control"} })
                   
                 <script>
@@ -53,14 +54,13 @@
                     document.getElementById("AuthorId").classList = "form-control";
                 </script>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-add" />
+            <div class="form-group margin-top:10px; margin-bottom:10px;">
+                <input type="submit" value="Добавить книгу" class="btn btn-add" />
             </div>
         </form>
+       
     </div>
 </div>
-
-<div>
-    <a class="btn btn-add" asp-action="Index">Back to List</a>
+<div style="margin-top:10px; margin-bottom:10px;">
+    <a class="btn btn-add" asp-action="Index">Вернуться к списку книг</a>
 </div>
-

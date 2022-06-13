@@ -112,8 +112,6 @@ namespace BookInfo.Controllers
         }
 
         // POST: Books/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
@@ -128,7 +126,6 @@ namespace BookInfo.Controllers
                 }
 
                 book.Cover = path;
-                //book.Author = db.Authors.Find(book.AuthorId);
                 db.Add(book);
                 foreach (var item in Genres)
                 {
@@ -138,7 +135,6 @@ namespace BookInfo.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            // ViewBag.errors = ModelState.Values.SelectMany(v => v.Errors);
             ViewBag.AuthorId = new SelectList(db.Authors, "Id", "FullName");
             ViewBag.Genres = new SelectList(db.Genres, "Id", "Name");
             return View(book);
@@ -164,8 +160,6 @@ namespace BookInfo.Controllers
         }
 
         // POST: Books/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
